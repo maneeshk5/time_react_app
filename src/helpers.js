@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import uuid from './../node_modules/uuid';
 
 function newTimer(attrs = {}) {
     return {

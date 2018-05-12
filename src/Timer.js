@@ -1,8 +1,26 @@
 import React from 'react';
 import helpers from './helpers';
 
-class Timer extends React.Component { render() {
-    const elapsedString = helpers.renderElapsedString(this.props.elapsed); return (
+class Timer extends React.Component {
+
+    componentDidMount() {
+        this.forceUpdateInterval = setInterval(() => this.forceUpdate(), 50);
+    }
+    componentWillUnmount() {
+        clearInterval(this.forceUpdateInterval);
+    }
+
+    handleTrashClick = () => {
+        this.props.onTrashClick(this.props.id);
+    };
+
+    render() {
+        const elapsedString = helpers.renderElapsedString(
+            this.props.elapsed, this.props.runningSince
+        );
+
+    // const elapsedString = helpers.renderElapsedString(this.props.elapsed);
+    return (
         <div className='ui centered card'>
             <div className='content'>
                 <div className='header'> {this.props.title}
@@ -14,10 +32,18 @@ class Timer extends React.Component { render() {
                         {elapsedString}
                     </h2> </div>
                 <div className='extra content'>
-            <span className='right floated edit icon'>
+                    <span
+                        className='right floated edit icon'
+                        onClick={this.props.onEditClick}
+                    >
+            {/*<span className='right floated edit icon'>*/}
               <i className='edit icon' />
             </span>
-                    <span className='right floated trash icon'>
+                    <span
+                        className='right floated trash icon'
+                        onClick={this.handleTrashClick}
+                    >
+                    {/*<span className='right floated trash icon'>*/}
               <i className='trash icon' />
             </span>
                 </div>
